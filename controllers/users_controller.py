@@ -21,14 +21,17 @@ def get_all_users():
 
 
 def get_by_user_id(user_id):
-    user = cache.get(user_id)
-    if not user:
+    cache_key = f"user:{user_id}"
+
+    if cache.has(cache_key):
+        user = cache.get(cache_key)
+    else:
         user = db.session.query(Users).filter(Users.user_id == user_id).first()
+        cache.set(cache_key, user, timeout=20)
 
     if not user:
         return jsonify({"message": "user not found"}), 404
 
-    cache.set(user_id, user, timeout=20)
     return jsonify({"message": "user found", "results": Users.schema.dump(user)}), 200
 
 
