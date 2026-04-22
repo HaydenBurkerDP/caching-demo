@@ -20,6 +20,18 @@ def get_all_users():
     return jsonify({"message": "users found", "results": Users.schema.dump(users, many=True)}), 200
 
 
+def get_by_user_id(user_id):
+    user = cache.get(user_id)
+    if not user:
+        user = db.session.query(Users).filter(Users.user_id == user_id).first()
+
+    if not user:
+        return jsonify({"message": "user not found"}), 404
+
+    cache.set(user_id, user, timeout=20)
+    return jsonify({"message": "user found", "results": Users.schema.dump(user)}), 200
+
+
 def update_user(user_id):
     post_data = request.get_json()
 

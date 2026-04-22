@@ -17,6 +17,11 @@ def get_all_users():
     return users_controller.get_all_users()
 
 
+@user_routes.route("/user/<user_id>", methods=["GET"])
+def get_by_user_id(user_id):
+    return users_controller.get_by_user_id(user_id)
+
+
 @user_routes.route("/user/<user_id>", methods=["PUT"])
 def update_user(user_id):
     return users_controller.update_user(user_id)
