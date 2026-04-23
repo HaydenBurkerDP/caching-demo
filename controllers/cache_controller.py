@@ -31,7 +31,7 @@ def get_factorial_cached(n):
 
     if not result:
         result = slow_factorial(n)
-        cache.set(cache_key, result, timeout=20)
+        cache.set(cache_key, result, timeout=300)
 
     end_time = time.time()
     return jsonify({

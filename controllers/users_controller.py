@@ -11,7 +11,7 @@ def add_user():
     db.session.add(user)
     db.session.commit()
 
-    return jsonify({"message": "user created", "results": {"user_id": user.user_id, "first_name": user.first_name}}), 201
+    return jsonify({"message": "user created", "results": Users.schema.dump(user)}), 201
 
 
 def get_all_users():
